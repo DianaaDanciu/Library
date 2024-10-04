@@ -1,0 +1,28 @@
+<h2>Books</h2>
+<button (click)="startAddBook()">Add Book</button>
+<ng-container *ngIf="addBook"><app-book-form (bookAdded)="onBookAdded()"></app-book-form></ng-container>
+<ul>
+    <li *ngFor="let book of books">
+        <ng-container *ngIf="editingBook?.id !== book.id; else editForm">
+            {{book.name}} by {{book.author}}
+            <p>{{book.description}}</p>
+            <button (click)="startEdit(book)">Edit</button>
+            <button (click)="deleteBook(book.id!)">Delete</button>
+        </ng-container>
+        <ng-template #editForm>
+            <label for="name">Book Name</label>
+            <input *ngIf="editingBook" [(ngModel)]="editingBook.name" placeholder="Name" name="name">
+            <br />
+            <label for="author">Author</label>
+            <input *ngIf="editingBook" [(ngModel)]="editingBook.author" placeholder="Author" name="author">
+            <br />
+            <label for="description">Description</label>
+            <textarea *ngIf="editingBook" [(ngModel)]="editingBook.description" placeholder="Description"
+                name="description"></textarea>
+            <br />
+            <button (click)="saveEdit()">Save</button>
+            <br />
+            <button (click)="cancelEdit()">Cancel</button>
+        </ng-template>
+    </li>
+</ul>
